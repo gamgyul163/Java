@@ -17,6 +17,7 @@ public class AmusementPark {
         isNationalMerit = sc.nextLine().equals("y")? true:false;
         System.out.print("복지카드 여부를 입력해 주세요.(y/n):");
         isWelfareCard = sc.nextLine().equals("y")? true:false;
+        sc.close();
 
         if (age <3) {
             entranceFee = 0;

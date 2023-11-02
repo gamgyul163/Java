@@ -6,6 +6,7 @@ public class CashBack {
         System.out.print("결제 금액을 입력해 주세요.(금액):");
         Scanner sc = new Scanner(System.in);
         int paymentAmount = sc.nextInt();
+        sc.close();
         int cashBackRatio = 10;
         int cashBackAmount = paymentAmount*cashBackRatio/100;
         cashBackAmount -= cashBackAmount%100; // 100이하 절삭
