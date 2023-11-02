@@ -14,9 +14,9 @@ public class AmusementPark {
         entranceTime = sc.nextInt();
         sc.nextLine();
         System.out.print("국가유공자 여부를 입력해 주세요.(y/n):");
-        isNationalMerit = sc.nextLine().equals("y")? true:false;
+        isNationalMerit = sc.nextLine().equals("y");
         System.out.print("복지카드 여부를 입력해 주세요.(y/n):");
-        isWelfareCard = sc.nextLine().equals("y")? true:false;
+        isWelfareCard = sc.nextLine().equals("y");
         sc.close();
 
         if (age <3) {
