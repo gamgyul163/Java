@@ -20,7 +20,7 @@ public class JavaStudy04 {
     }
 }
 class ResidentRegistrationNumberMaker {
-    private Scanner scanner;
+    private Scanner scanner = null;
     private int birthYear, birthMonth, birthDay;
     boolean gender; // true = male, false = female
 

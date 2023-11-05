@@ -8,6 +8,7 @@ public class JavaStudy03 {
         EntranceFeeCalculator calculator = new EntranceFeeCalculator(scanner);
 
         System.out.println("[입장권 계산]");
+
         calculator.askAge();
         calculator.askEntranceTime();
         calculator.askIsNationalMerit();
@@ -20,7 +21,7 @@ public class JavaStudy03 {
 
 class EntranceFeeCalculator {
     private final int NORMAL_FEE = 10000, DISCOUNTED_FEE = 8000, EXTRA_DISCOUNTED_FEE = 4000;
-    private Scanner scanner;
+    private Scanner scanner = null;
     private int age, entranceTime;
     private boolean isNationalMerit, isWelfareCard;
 

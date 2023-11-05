@@ -3,11 +3,11 @@ public class JavaStudy01 {
     public static void main(String[] args) {
         System.out.println("[구구단 출력]");
         for (int i = 1; i <= 9; i++) {
+            StringBuilder line = new StringBuilder();
             for (int j = 1; j <= 9; j++) {
-                String output = String.format("%02d X %02d = %02d", j, i, j*i);
-                output += j < 9? " ":"\n";
-                System.out.print(output);
+                line.append(String.format("%02d X %02d = %02d   ", j, i, j*i));
             }
+            System.out.println(line.toString().trim());
         }
     }
 }
