@@ -17,11 +17,12 @@ public class JavaStudy05 {
         calendarMaker.askForMonth();
 
         calendarMaker.printCalendar();
+        scanner.close();
     }
 }
 
 class CalendarMaker {
-    private Scanner scanner = null;
+    private final Scanner scanner;
     int year, month;
 
     CalendarMaker(Scanner scanner) {
@@ -65,10 +66,10 @@ class CalendarMaker {
         StringBuilder header = new StringBuilder();
         for (int i = 1; i <= 7; i++) {
             DayOfWeek dayOfWeek = DayOfWeek.of(i);
-            header.append(String.format("%-3s",dayOfWeek.getDisplayName(SHORT,locale)));
+            header.append(String.format("%s\t",dayOfWeek.getDisplayName(SHORT,locale)));
         }
         for (int i = 0; i < calendars.length; i++) {
-            System.out.printf("%-34s",header);
+            System.out.printf("%-26s", header);
         }
         System.out.println();
     }
@@ -100,17 +101,16 @@ class CalendarMaker {
                     DayOfWeek dayOfWeek = DayOfWeek.of(k);
                     int dayOfMonth = calendars[i].getDayOfMonth();
                     if (dayOfWeek.equals(calendars[i].getDayOfWeek()) && !finishChecker.get(i)) { // 요일이 맞고(초기부분 넘기기), 체커가 false인 경우
-                        String strDay = String.format("%02d", dayOfMonth);
-                        week.append(String.format("%-4s", strDay));
+                        week.append(String.format("%02d\t", dayOfMonth));
                         if (dayOfMonth == calendars[i].lengthOfMonth()) { // 달의 마지막날에 도달하면 체커를 true로 바꾼다.
                             finishChecker.set(i, true);
                         }
                         calendars[i] = calendars[i].plusDays(1);
                     } else {
-                        week.append(String.format("%-4s", "")); // 초반에 요일 안맞는경우, 마지막까지 출력해서 체커가 true인 경우 공백을 추가한다.
+                        week.append("  \t"); // 초반에 요일 안맞는경우, 마지막까지 출력해서 체커가 true인 경우 공백을 추가한다.
                     }
                 }
-                System.out.printf("%-40s", week);
+                System.out.printf("%-33s",week);
             }
             System.out.println();
         }
