@@ -55,8 +55,7 @@ class Game{
 
     private int countWinningNumbers(Game winningGame) {
         int count = 0;
-        TreeSet<Integer> winningNumbers = winningGame.numbers;
-        for (int num:winningNumbers) {
+        for (int num:winningGame.numbers) {
             if(numbers.contains(num)) {
                 count++;
             }
