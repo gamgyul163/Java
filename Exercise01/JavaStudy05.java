@@ -94,9 +94,9 @@ class CalendarMaker {
         printCalendarTitle(calendars);
         printCalendarHeader(calendars, KOREAN);
 
-        while (finishChecker.contains(false)) {
-            for (int i = 0; i < loop; i++) {
-                StringBuilder week = new StringBuilder();
+        while (finishChecker.contains(false)) { // 체커가 false인게 있으면 계속 돌린다.
+            for (int i = 0; i < loop; i++) { // 넘겨받은 달력 하나씩 돌린다.
+                StringBuilder week = new StringBuilder(); // 주단위로 저장해서 한번에 출력한다.
                 for (int k = 1; k <= 7; k++) {
                     DayOfWeek dayOfWeek = DayOfWeek.of(k);
                     int dayOfMonth = calendars[i].getDayOfMonth();
@@ -105,7 +105,7 @@ class CalendarMaker {
                         if (dayOfMonth == calendars[i].lengthOfMonth()) { // 달의 마지막날에 도달하면 체커를 true로 바꾼다.
                             finishChecker.set(i, true);
                         }
-                        calendars[i] = calendars[i].plusDays(1);
+                        calendars[i] = calendars[i].plusDays(1); // 다음날로 날짜를 바꾼다.
                     } else {
                         week.append("  \t"); // 초반에 요일 안맞는경우, 마지막까지 출력해서 체커가 true인 경우 공백을 추가한다.
                     }

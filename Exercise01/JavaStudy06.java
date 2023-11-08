@@ -1,6 +1,6 @@
+// 백엔드 19기 임국희
 import java.util.*;
 
-// 백엔드 19기 임국희
 public class JavaStudy06 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -44,7 +44,7 @@ class VoteManager{
     private final Scanner scanner;
     private int totalOfVotes = 0; // 총 투표수
     Candidate[] candidates = null;
-    final String INPUT_ERROR_MESSAGE = "잘못된 입력입니다. 다시 입력해주세요";
+    private final String INPUT_ERROR_MESSAGE = "잘못된 입력입니다. 다시 입력해주세요";
 
     VoteManager(Scanner scanner) {
         this.scanner = scanner;
