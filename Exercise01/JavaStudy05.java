@@ -13,44 +13,41 @@ public class JavaStudy05 {
         CalendarMaker calendarMaker = new CalendarMaker(scanner);
 
         System.out.println("[달력 출력 프로그램]");
-        calendarMaker.askForYear();
-        calendarMaker.askForMonth();
-
-        calendarMaker.printCalendar();
-        scanner.close();
+        LocalDate localDate = calendarMaker.askLocalDate();
+        calendarMaker.printCalendar(localDate, 1, 1);
     }
 }
 
 class CalendarMaker {
     private final Scanner scanner;
-    int year, month;
+    private final String INPUT_ERROR_MESSAGE = "잘못된 입력입니다. 다시 입력해주세요";
 
     CalendarMaker(Scanner scanner) {
         this.scanner = scanner;
     }
-    void askForYear() {
-        year = askForNumericInput("달력의 년도를 입력해 주세요.(yyyy):",4);
+
+    private int askYear() {
+        return askNumericInput("달력의 년도를 입력해 주세요.(yyyy):",4);
     }
-    void askForMonth() {
-        month = askForNumericInput("달력의 월을 입력해 주세요.(mm):",2);
+    private int askMonth() {
+        return askNumericInput("달력의 월을 입력해 주세요.(mm):",2);
     }
-    
-    // 숫자형 입력값을 입력받는 질문을 생성하는데 사용하는 매소드, prompt가 화면에 출력되어 입력을 유도하고 length로 길이를 제한한다.
-    private int askForNumericInput(String prompt, int length) {
-        int numericInput = -1;
-        while (numericInput < 0) {
-            try {
-                System.out.print(prompt);
-                String originalInput = scanner.nextLine();
-                if (originalInput.length() != length) {
-                    throw new NumberFormatException();
-                }
-                numericInput = Integer.parseInt(originalInput);
-            } catch (NumberFormatException e) {
-                System.out.println("잘못된 입력입니다. 다시 입력해주세요");
+
+    private int askNumericInput(String prompt, int length) { // 숫자 입력 유도 및 유효성 검증
+        int numericInput;
+        do {
+            System.out.print(prompt);
+            String strInput = scanner.nextLine().trim();
+            if(strInput.matches("\\d{"+length+"}")) {
+                numericInput = Integer.parseInt(strInput);
+                break;
             }
-        }
+            System.out.println(INPUT_ERROR_MESSAGE);
+        } while (true);
         return numericInput;
+    }
+    LocalDate askLocalDate() {
+        return LocalDate.of(askYear(), askMonth(), 1);
     }
     // 달력의 타이틀 출력
     private void printCalendarTitle(LocalDate[] calendars) {
@@ -73,32 +70,31 @@ class CalendarMaker {
         }
         System.out.println();
     }
-    void printCalendar() {
-        LocalDate[] calendars = new LocalDate[3];
-        calendars[1] = LocalDate.of(year, month, 1);
-        calendars[0] = calendars[1].minusMonths(1);
-        calendars[2] = calendars[1].plusMonths(1);
+    void printCalendar(LocalDate localDate, int prevCalendar, int nextCalendar) {
+        LocalDate[] calendars = new LocalDate[prevCalendar+nextCalendar+1];
+        for (int i = 0; i < calendars.length; i++) {
+            calendars[i] = localDate.plusMonths(i-prevCalendar);
+        }
         
         printCalendar(calendars);
     }
     void printCalendar(LocalDate[] calendars) {
         // 넘겨받은 배열의 달력을 출력하는 매소드
         int loop = calendars.length;
-        ArrayList<Boolean> finishChecker = new ArrayList<>();
+        ArrayList<Boolean> finishChecker = new ArrayList<>(); // 달력 출력 완료여부 체커
         for (int i = 0; i < loop; i++) {
             finishChecker.add(false);
         }
-
-
+        
         // 달력 타이틀, 헤더 출력
         printCalendarTitle(calendars);
         printCalendarHeader(calendars, KOREAN);
 
         while (finishChecker.contains(false)) { // 체커가 false인게 있으면 계속 돌린다.
-            for (int i = 0; i < loop; i++) { // 넘겨받은 달력 하나씩 돌린다.
+            for (int i = 0; i < loop; i++) { // 넘겨받은 달력dmf 하나씩 돌린다.
                 StringBuilder week = new StringBuilder(); // 주단위로 저장해서 한번에 출력한다.
-                for (int k = 1; k <= 7; k++) {
-                    DayOfWeek dayOfWeek = DayOfWeek.of(k);
+                for (int j = 1; j <= 7; j++) {
+                    DayOfWeek dayOfWeek = DayOfWeek.of(j);
                     int dayOfMonth = calendars[i].getDayOfMonth();
                     if (dayOfWeek.equals(calendars[i].getDayOfWeek()) && !finishChecker.get(i)) { // 요일이 맞고(초기부분 넘기기), 체커가 false인 경우
                         week.append(String.format("%02d\t", dayOfMonth));

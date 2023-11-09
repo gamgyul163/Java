@@ -13,44 +13,44 @@ public class JavaStudy03 {
     }
 }
 class Visitor { // 입장객
-    private final int AGE, ENTRANCE_TIME;
-    private final boolean IS_NATIONAL_MERIT, IS_WELFARE_CARD;
+    private final int age, entranceTime;
+    private final boolean isNationalMerit, isWelfareCard;
 
     Visitor(int age, int entranceTime, boolean isNationalMerit, boolean isWelfareCard) {
-        this.AGE = age;
-        this.ENTRANCE_TIME = entranceTime;
-        this.IS_NATIONAL_MERIT = isNationalMerit;
-        this.IS_WELFARE_CARD = isWelfareCard;
+        this.age = age;
+        this.entranceTime = entranceTime;
+        this.isNationalMerit = isNationalMerit;
+        this.isWelfareCard = isWelfareCard;
     }
 
     int getAge() {
-        return AGE;
+        return age;
     }
     int getEntranceTime() {
-        return ENTRANCE_TIME;
+        return entranceTime;
     }
     boolean getIsNationalMerit() {
-        return IS_NATIONAL_MERIT;
+        return isNationalMerit;
     }
     boolean getIsWelfareCard() {
-        return IS_WELFARE_CARD;
+        return isWelfareCard;
     }
 }
 class EntranceFeeCalculator {
     private final int NORMAL_FEE = 10000, DISCOUNTED_FEE = 8000, EXTRA_DISCOUNTED_FEE = 4000; // 요금
-    private final Scanner SCANNER;
+    private final Scanner scanner;
     private final String INPUT_ERROR_MESSAGE = "잘못된 입력입니다. 다시 입력해주세요";
     private final int FREE_AGE = 3; // 무료 입장
     private final int SALE_AGE = 13, SALE_TIME = 17; // 세일 기준 나이, 기준 시간
 
     EntranceFeeCalculator(Scanner scanner) {
-        this.SCANNER = scanner;
+        this.scanner = scanner;
     }
-    private int askForNumericInput(String prompt) { // 숫자 입력 유도 및 유효성 검증
+    private int askNumericInput(String prompt) { // 숫자 입력 유도 및 유효성 검증
         int numericInput;
         do {
             System.out.print(prompt);
-            String strInput = SCANNER.nextLine().trim();
+            String strInput = scanner.nextLine().trim();
             if(strInput.matches("\\d+")) {
                 numericInput = Integer.parseInt(strInput);
                 break;
@@ -60,16 +60,16 @@ class EntranceFeeCalculator {
         return numericInput;
     }
     private int askAge() {
-        return askForNumericInput("나이를 입력해 주세요.(숫자):");
+        return askNumericInput("나이를 입력해 주세요.(숫자):");
     }
     private int askEntranceTime() {
-        return askForNumericInput("입장시간을 입력해 주세요.(숫자입력):");
+        return askNumericInput("입장시간을 입력해 주세요.(숫자입력):");
     }
-    private boolean askForBoolInput(String prompt) { // y, n 입력 유도 및 유효성 검증
+    private boolean askBoolInput(String prompt) { // y, n 입력 유도 및 유효성 검증
         boolean boolInput;
         do {
             System.out.print(prompt);
-            String strInput = SCANNER.nextLine().trim();
+            String strInput = scanner.nextLine().trim();
             if(strInput.matches("[yn]")) {
                 boolInput = (strInput.equals("y"));
                 break;
@@ -79,10 +79,10 @@ class EntranceFeeCalculator {
         return boolInput;
     }
     private boolean askIsNationalMerit() {
-        return askForBoolInput("국가유공자 여부를 입력해 주세요(y/n):");
+        return askBoolInput("국가유공자 여부를 입력해 주세요(y/n):");
     }
     private boolean askIsWelfareCard() {
-        return askForBoolInput("복지카드 여부를 입력해 주세요(y/n)");
+        return askBoolInput("복지카드 여부를 입력해 주세요(y/n)");
     }
     private int calEntranceFee(Visitor visitor) { // 입장객 정보를 받아서 입장료를 계산
         if (visitor.getAge() < FREE_AGE) {
