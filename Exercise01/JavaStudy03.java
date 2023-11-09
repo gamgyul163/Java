@@ -13,26 +13,27 @@ public class JavaStudy03 {
     }
 }
 class Visitor { // 입장객
-    private final int age, entranceTime;
-    private final boolean isNationalMerit, isWelfareCard;
+    private final int AGE, ENTRANCE_TIME;
+    private final boolean IS_NATIONAL_MERIT, IS_WELFARE_CARD;
 
     Visitor(int age, int entranceTime, boolean isNationalMerit, boolean isWelfareCard) {
-        this.age = age;
-        this.entranceTime = entranceTime;
-        this.isNationalMerit = isNationalMerit;
-        this.isWelfareCard = isWelfareCard;
+        this.AGE = age;
+        this.ENTRANCE_TIME = entranceTime;
+        this.IS_NATIONAL_MERIT = isNationalMerit;
+        this.IS_WELFARE_CARD = isWelfareCard;
     }
+
     int getAge() {
-        return age;
+        return AGE;
     }
     int getEntranceTime() {
-        return entranceTime;
+        return ENTRANCE_TIME;
     }
     boolean getIsNationalMerit() {
-        return isNationalMerit;
+        return IS_NATIONAL_MERIT;
     }
     boolean getIsWelfareCard() {
-        return isWelfareCard;
+        return IS_WELFARE_CARD;
     }
 }
 class EntranceFeeCalculator {
