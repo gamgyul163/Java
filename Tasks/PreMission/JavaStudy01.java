@@ -1,3 +1,5 @@
+package PreMission;
+
 // 백엔드 19기 임국희
 public class JavaStudy01 {
     public static void main(String[] args) {
