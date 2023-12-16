@@ -1,4 +1,4 @@
-// 백엔드 19기 임국희
+package PreMission;// 백엔드 19기 임국희
 
 import java.util.ArrayList;
 import java.util.Scanner;
