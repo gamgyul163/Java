@@ -4,43 +4,33 @@ import java.util.*;
 
 public class Task02 {
     public static void main(String[] args) {
-        DistanceCalculator calculator = new DistanceCalculator();
-        Position myPosition = calculator.createPosition();
-
-
-        HashSet<Position> positions = new HashSet<>();
-
-        while(positions.size()<10) {
-            System.out.printf("입력된 좌표:%d개\n",positions.size());
-            Position newPosition = calculator.createPosition();
-            if (!positions.add(newPosition)) {
-                System.out.println("중복된 좌표입니다.");
-            }
-        }
+        Scanner scanner = new Scanner(System.in);
+        PositionManager manager = new PositionManager(scanner);
+        manager.setMyPosition();
+        manager.setPositions(10);
         System.out.print("가장 가까운 좌표:");
-        calculator.getNearestPosition(myPosition, positions).printPos();
+        manager.getNearestPosition().printPos();
     }
 }
 class Position {
     private int x;
     private int y;
+
     Position(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    public int getX() {
-        return x;
-    }
-    public int getY() {
-        return y;
-    }
-
     @Override
     public boolean equals(Object obj) {
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
         Position position = (Position) obj;
-        return this.getX() == position.getX() && this.getY() == position.getY();
+        return this.x == position.x && this.y == position.y;
     }
 
     @Override
@@ -51,23 +41,50 @@ class Position {
     public void printPos() {
         System.out.println(x+" "+y);
     }
+
+    public double getDistance(Position other) {
+        return Math.sqrt(Math.pow(this.x- other.x,2)+Math.pow(this.y- other.y,2));
+    }
 }
-class DistanceCalculator {
-    static final Scanner SCANNER = new Scanner(System.in);
 
-    private final String INPUT_ERROR_MESSAGE = "잘못된 입력입니다. 다시 입력해주세요";
+class PositionManager {
 
 
-    Position createPosition() {
-        int x = askNumericInput("x좌표을 입력해 주세요:");
-        int y = askNumericInput("y좌표을 입력해 주세요:");
+    private static final String INPUT_ERROR_MESSAGE = "잘못된 입력입니다. 다시 입력해주세요";
+    private static final String DUPLICATE_ERROR_MESSAGE = "잘못된 입력입니다. 다시 입력해주세요";
+    private static final String Request_X = "x좌표을 입력해 주세요:";
+    private static final String Request_Y = "y좌표을 입력해 주세요:";
+    private Position myPosition;
+    private HashSet<Position> positions;
+    private Scanner scanner;
+
+    PositionManager(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
+    private Position createPosition() {
+        int x = askNumericInput(Request_X);
+        int y = askNumericInput(Request_Y);
         return new Position(x,y);
     }
-    private int askNumericInput(String prompt) { // 숫자 입력 유도 및 유효성 검증
+    public void setMyPosition() {
+        this.myPosition = createPosition();
+    }
+    public void setPositions(int size) {
+        this.positions = new HashSet<>();
+        while (this.positions.size() < size) {
+            System.out.printf("입력된 좌표:%d개\n",positions.size());
+            if (!positions.add(createPosition())) {
+                System.out.println(DUPLICATE_ERROR_MESSAGE);
+            }
+        }
+    }
+
+    private int askNumericInput(String prompt) {
         int numericInput;
         do {
             System.out.print(prompt);
-            String strInput = SCANNER.nextLine().trim();
+            String strInput = scanner.nextLine().trim();
             if(strInput.matches("\\d+")) {
                 numericInput = Integer.parseInt(strInput);
                 break;
@@ -76,14 +93,12 @@ class DistanceCalculator {
         } while (true);
         return numericInput;
     }
-    double getDistance(Position position1, Position position2) {
-        return Math.sqrt(Math.pow(position1.getX()- position2.getX(),2)+Math.pow(position1.getY()- position2.getY(),2));
-    }
-    Position getNearestPosition(Position myPosition, HashSet<Position> Positions) {
+
+    Position getNearestPosition() {
         Position nearestPosition = null;
         double minDistance = Double.MAX_VALUE;
-        for (Position otherPosition:Positions) {
-            double distance = getDistance(myPosition,otherPosition);
+        for (Position otherPosition:positions) {
+            double distance = myPosition.getDistance(otherPosition);
             if (distance<minDistance) {
                 nearestPosition = otherPosition;
                 minDistance = distance;

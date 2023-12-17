@@ -78,7 +78,7 @@ class HtmlEditor { // 문서 편집기
     private Dom root; // 현재 편집 중인 문서의 최상위 레벨
     private Dom cur; // 현재 편집 중인 레벨
 
-    Stack<Dom> stack = new Stack<>(); // 커서 이동을 위한 스택
+    private Stack<Dom> stack = new Stack<>(); // 커서 이동을 위한 스택
     HtmlEditor(Dom root) {
         this.root = root;
         this.cur = root;
@@ -150,13 +150,13 @@ class HtmlEditor { // 문서 편집기
         try {
             File file = new File(fileName);
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-            writer.write(DomToString(this.root));
+            writer.write(domToString(this.root));
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    String DomToString(Dom dom) { // DOM을 문자열로 변경
+    private String domToString(Dom dom) { // DOM을 문자열로 변경
         StringJoiner openTag = new StringJoiner(" ","<",">");
         openTag.add(dom.getName());
 
@@ -177,9 +177,9 @@ class HtmlEditor { // 문서 편집기
             if (item instanceof String) { // 요소가 문자열이면 바로 넣는다.
                 result.add((String)item);
             } else if (dom.getName().equals("style")) { // 스타일 태그의 요소들은 별도로 처리한다.
-                result.add(CSSToString((Dom)item));
+                result.add(csstostring((Dom)item));
             } else if (item instanceof Dom){ // 요소가 DOM이면 재귀로 넣는다.
-                result.add(DomToString((Dom)item));
+                result.add(domToString((Dom)item));
             }
         }
 
@@ -188,7 +188,7 @@ class HtmlEditor { // 문서 편집기
 
         return result.toString();
     }
-    String CSSToString(Dom dom) { // CSS를 문자열로 변경
+    private String csstostring(Dom dom) { // CSS를 문자열로 변경
         StringJoiner block = new StringJoiner("; ","{","}");
 
         for (String property: dom.getAttributes().keySet()) {
