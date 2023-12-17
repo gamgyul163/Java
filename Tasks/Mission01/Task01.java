@@ -1,5 +1,7 @@
 package Mission01;
 
+// 백엔드 19기 임국희
+
 import java.io.*;
 import java.util.*;
 
@@ -150,6 +152,7 @@ class HtmlEditor { // 문서 편집기
         try {
             File file = new File(fileName);
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            writer.write("<!DOCTYPE html>\n");
             writer.write(domToString(this.root));
             writer.close();
         } catch (IOException e) {
